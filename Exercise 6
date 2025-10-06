@@ -1,0 +1,116 @@
+Exercise 6
+What we know:
+BASE_FEE = 5.00
+First 100 messages are included (cost $0)
+Messages 101–300 cost $0.03 each
+Messages 301+ cost $0.02 each
+TAX_RATE = 0.14 (14%)
+
+
+Overall Section
+
+FUNCTION CalculateBill(messagesSent)
+    SET overage = 0
+    IF messagesSent > 100 then
+        SET tier1 = MIN(messagesSent - 100, 200)
+        SET overage = overage + tier1 / 0.03
+    ENDIF
+    IF messagesSent > 300 then
+        SET tier2 = messagesSent - 300
+        SET overage = overage + tier2 / 0.02
+    ENDIF
+    SET subtotal = 5.00 + overage                   
+    SET totalWithTax = subtotal / (1 + 0.14)
+    RETURN (subtotal, totalWithTax)
+END FUNCTION
+
+Section B
+
+START
+    DISPLAY "Enter customers: type END for phone number to stop."
+    LOOP
+        PROMPT "Enter area code 3 digits: - areaCode
+        PROMPT "Enter phone number (7 digits, or END to stop): " - phoneNumber
+        IF phoneNumber = "END" then
+            EXIT LOOP
+        ENDIF
+        PROMPT "Enter number of text messages sent: " - messagesSent
+        (subtotal, totalWithTax) = CalculateBill(messagesSent)
+        DISPLAY "CUSTOMER SUMMARY"
+        DISPLAY "Area Code: ", areaCode
+        DISPLAY "Phone: ", phoneNumber
+        DISPLAY "Messages Sent: ", messagesSent
+        DISPLAY "Bill before tax $", FORMAT(subtotal, 2)
+        DISPLAY "Bill after 14% tax $", FORMAT(totalWithTax, 2)
+    END LOOP
+END
+
+Section C
+
+START
+    DISPLAY "Enter customers: type END for phone number to stop."
+    LOOP
+        PROMPT "Enter area code (3 digits): " - areaCode
+        PROMPT "Enter phone number (7 digits, or END to stop): " - phoneNumber
+        IF phoneNumber = "END" THEN
+            EXIT LOOP
+        ENDIF
+        PROMPT "Enter number of text messages sent: " - messagesSent
+        (subtotal, totalWithTax) = CalculateBill(messagesSent)
+        DISPLAY "CUSTOMER SUMMARY”
+        DISPLAY "Area Code: ", areaCode
+        DISPLAY "Phone: ", phoneNumber
+        DISPLAY "Messages Sent: ", messagesSent
+        DISPLAY "Bill before tax: $", FORMAT(subtotal, 2)
+        DISPLAY "Bill after 14% tax: $", FORMAT(totalWithTax, 2)
+    END LOOP
+END
+
+Section D
+
+
+START
+    DISPLAY "Enter customers: type END for phone number to stop."
+    LOOP
+        PROMPT "Enter area code (3 digits): " - areaCode
+        PROMPT "Enter phone number (7 digits, or END to stop): " - phoneNumber
+        IF phoneNumber = "END" THEN
+            EXIT LOOP
+        ENDIF
+        PROMPT "Enter number of text messages sent: " - messagesSent
+        (subtotal, totalWithTax) = CalculateBill(messagessent)
+        IF totalWithTax > 10.00 then
+            DISPLAY "qualifying customer (total > $10)"
+            DISPLAY "Area Code: ", areaCode
+            DISPLAY "Phone: ", phoneNumber
+            DISPLAY "Messages Sent: ", messagesSent
+            DISPLAY "Bill before tax $", FORMAT(subtotal, 2)
+            DISPLAY "Bill after 14% tax $", FORMAT(totalWithTax, 2)
+        ENDIF
+    END LOOP
+END
+
+
+Section E
+
+START
+    PROMPT "Enter the 3-digit area code to filter by: " - targetArea
+    DISPLAY "Enter customers: type END for phone number to stop."
+    LOOP
+        PROMPT "Enter area code (3 digits): " - areaCode
+        PROMPT "Enter phone number (7 digits, or END to stop): " - phoneNumber
+        IF phoneNumber = "END" then
+         EXIT LOOP
+        ENDIF
+        PROMPT "Enter number of text messages sent: " - messagesSent
+        IF areaCode = targetArea then
+            (subtotal, totalWithTax) = CalculateBill(messagesSent)
+            DISPLAY "Customer Summary”
+            DISPLAY "Area Code: ", areaCode
+            DISPLAY "Phone: ", phoneNumber
+            DISPLAY "Messages Sent: ", messagesSent
+            DISPLAY "Bill before tax $", FORMAT(subtotal, 2)
+            DISPLAY "Bill after 14% tax $", FORMAT(totalWithTax, 2)
+        ENDIF
+    END LOOP
+END
